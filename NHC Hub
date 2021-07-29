@@ -1,5 +1,4 @@
 local keylist = {
-	["KeyTest"] = true,
 	["Key100100100"] = true
 }
 
