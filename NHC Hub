@@ -1,4 +1,7 @@
-local keylist = {"Key100100100"}
+local keylist = {
+	["KeyTest"] = true,
+	["Key100100100"] = true
+}
 
 local ScreenGui = Instance.new("ScreenGui")
 local Frame = Instance.new("Frame")
@@ -16,6 +19,7 @@ local speedcar = Instance.new("TextButton")
 local itemgrabber = Instance.new("TextButton")
 local aimbot = Instance.new("TextButton")
 local anticuff = Instance.new("TextButton")
+local spectate = Instance.new("TextButton")
 local Key = Instance.new("Frame")
 local KeyID = Instance.new("TextBox")
 local TextLabel_2 = Instance.new("TextLabel")
@@ -23,6 +27,7 @@ local Access = Instance.new("TextButton")
 local CreditsMain = Instance.new("Frame")
 local TextLabel_3 = Instance.new("TextLabel")
 local Open = Instance.new("TextButton")
+local Value = Instance.new("BoolValue")
 
 --Properties:
 
@@ -1080,6 +1085,62 @@ anticuff.MouseButton1Click:Connect(function()
 	print("soon")
 end)
 
+spectate.Name = "spectate"
+spectate.Parent = ScriptsMain
+spectate.BackgroundColor3 = Color3.fromRGB(26, 26, 26)
+spectate.BorderSizePixel = 0
+spectate.Size = UDim2.new(0.918367267, 0, 0.0500000007, 0)
+spectate.Font = Enum.Font.SourceSans
+spectate.Text = "spectate"
+spectate.TextColor3 = Color3.fromRGB(255, 255, 255)
+spectate.TextScaled = true
+spectate.TextSize = 14.000
+spectate.TextWrapped = true
+spectate.MouseButton1Click:Connect(function()
+	gui = Instance.new("ScreenGui",game.Players.LocalPlayer.PlayerGui)
+	nextb = Instance.new("TextButton", gui)
+	nextb.Position = UDim2.new(0.88,0,0.9,0)
+	nextb.Size = UDim2.new(0.1,0,0.07,0)
+	nextb.Style = Enum.ButtonStyle.RobloxRoundDropdownButton
+	nextb.Text = "Next"
+	prevb = nextb:Clone()
+	prevb.Position = UDim2.new(0.02,0,0.9,0)
+	prevb.Text = "Previous"
+	prevb.Parent = gui
+	plrNum = 1
+	for i,v in pairs(game.Players:GetPlayers()) do
+		if i == plrNum then
+			game.Workspace.Camera.CameraSubject = v.Character.Humanoid
+		end
+	end
+
+	prevb.MouseButton1Down:connect(function()
+		if plrNum ~= 1 then
+			plrNum = plrNum - 1
+		end
+		for i,v in pairs(game.Players:GetPlayers()) do
+			if i == plrNum then
+				game.Workspace.Camera.CameraSubject = v.Character.Humanoid
+			end
+		end
+	end)
+
+	nextb.MouseButton1Down:connect(function()
+		if plrNum < #game.Players:GetPlayers() then
+			plrNum = plrNum + 1
+			for i,v in pairs(game.Players:GetPlayers()) do
+				if i == plrNum then
+					game.Workspace.Camera.CameraSubject = v.Character.Humanoid
+				end
+			end
+		end
+	end)
+end)
+
+Value.Name = "Value"
+Value.Parent = Key
+Value.Value = false
+
 Key.Name = "Key"
 Key.Parent = Frame
 Key.BackgroundColor3 = Color3.fromRGB(21, 21, 21)
@@ -1125,15 +1186,13 @@ Access.TextScaled = true
 Access.TextSize = 14.000
 Access.TextWrapped = true
 Access.MouseButton1Click:Connect(function()
-	for i,v in pairs(keylist) do
-		if Access.Parent.KeyID.Text == v then
-			wait(0.1)
-			Access.Parent.Visible = false
-			Access.Parent.Parent.CreditsMain.Visible = true
-			Access.Parent.Parent.ScrollingFrame.Visible = true
-		else
-			game.Players.LocalPlayer:Kick("Key is Invaild")
-		end
+	if keylist[Access.Parent.KeyID.Text] then
+		Value.Value = true
+		Access.Parent.Visible = false			
+		Access.Parent.Parent.CreditsMain.Visible = true			
+		Access.Parent.Parent.ScrollingFrame.Visible = true			
+	else
+		game.Players.LocalPlayer:Kick("Key is Invaild")
 	end
 end)
 
@@ -1161,8 +1220,8 @@ Open.Name = "Open"
 Open.Parent = ScreenGui
 Open.BackgroundColor3 = Color3.fromRGB(21, 21, 21)
 Open.BorderSizePixel = 0
-Open.Position = UDim2.new(0.39824304, 0, 0.94747138, 0)
-Open.Size = UDim2.new(0.202049777, 0, 0.0520833321, 0)
+Open.Position = UDim2.new(0.39824304, 0, 0.969366014, 0)
+Open.Size = UDim2.new(0.202049777, 0, 0.0301887188, 0)
 Open.Font = Enum.Font.SourceSans
 Open.Text = "CLOSE"
 Open.TextColor3 = Color3.fromRGB(255, 255, 255)
@@ -1172,3 +1231,12 @@ Open.TextWrapped = true
 Open.MouseButton1Click:Connect(function()
 	Frame.Visible = not Frame.Visible
 end)
+
+while true do
+	wait()	
+	if Value.Value == false then		
+		if CreditsMain.Visible == true or ScriptsMain.Visible == true or Key.Visible == false then
+		game.Players.LocalPlayer:Kick("Nice try to bypass key")			
+		end
+	end
+end
