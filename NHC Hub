@@ -1081,7 +1081,7 @@ anticuff.TextScaled = true
 anticuff.TextSize = 14.000
 anticuff.TextWrapped = true
 anticuff.MouseButton1Click:Connect(function()
-	game.Players.LocalPlayer.CoreClient.ToolHandler.Handcuffs:Destroy()
+	game.Players.LocalPlayer.PlayerScripts.CoreClient.ToolHandler.Handcuffs:Destroy()
 end)
 
 spectate.Name = "spectate"
