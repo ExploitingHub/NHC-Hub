@@ -1,5 +1,6 @@
 local keylist = {
-	["Key100100100"] = true
+	["Key100100100"] = true, -- ADMIN
+	["Key493183153"] = true -- a fox
 }
 
 local ScreenGui = Instance.new("ScreenGui")
